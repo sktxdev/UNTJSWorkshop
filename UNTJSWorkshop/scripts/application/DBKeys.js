@@ -1,0 +1,7 @@
+DBKey = (function(){
+
+    function GetNextSequence() {
+    }
+    
+})();
+

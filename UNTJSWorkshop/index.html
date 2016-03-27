@@ -1,0 +1,152 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles/styles.css" type="text/css" />
+    <link rel="stylesheet" href="scripts/jquery-ui-1.11.custom/jquery-ui.css" type="text/css"  />
+    
+    <script src="scripts/jQuery-1.12.2/jQuery-1.12.2.min.js" type="text/javascript"></script>
+    <script src="scripts/jQuery-ui-1.11.custom/jquery-ui.min.js" type="text/javascript"></script>
+    
+    <script >
+        // the embedded function (called a closure) is executed when the page is loaded
+        // this can also be written as:  $(function() { })
+        $(document).ready(function() {
+            console.log("Document ready");
+            Initialize();
+        });
+
+        $(window).load(function() {
+            console.log("Window loaded");
+        });
+
+        function StorageTest() {
+            if(typeof(Storage) !== "undefined") {
+                localStorage.setItem("StorageTest", "Local storage is available");
+                $("#localStorageResult").val(localStorage.StorageTest);
+            } else {
+                $("#localStorageResult").val("Local storage is NOT available");
+            }
+        }
+        
+        function Initialize() {
+            $("#btnLocalStorage").button();
+            
+            $("#btnLocalStorage").click(function() {
+                StorageTest();
+            });
+            
+            $("#btnCookieStorage").button();
+            
+            $("#btnCookieStorage").click(function() {
+                
+            });
+            
+        }
+
+
+    </script>
+</head>
+<body>
+<h1>UNT Javascript Workshop</h1>
+Javascript Workshop
+Length: 3.0 hours
+
+    A gentle but fast paced introduction to Javascript from a web development perspective.
+    This workshop requires no web server, everything is done locally. You will need a
+    code editor. Any will do. It is very helpful to have the directory structure displayed.
+
+    You will need to bring a laptop (pc or mac) with a functioning web browser (preferably firefox),
+    an editor for editing code. Visual Studio Code is pretty good (this runs on a mac also!), as are 
+    a few others such as Notepad++, Sublime, Textmate etc.,
+
+<h3>Fast Intro to Javascript and jQuery</h3>
+
+<li>What is Javascript</li>
+<li>What is jQuery</li>
+<li>Assignments, Loops and Arrays</li>
+<li>Control Statements</li>
+<li>Objects</li>
+<li>Function Prototypes</li>
+<li>JSON and Javascript</li>
+<li>Debugging javascript</li>
+<li>jQuery and the DOM (HTML)</li>
+<li>jQuery and CSS</li>
+
+<h3>What will we be building</h3>
+<div class="descriptiveText">
+    We will be building a Patient Appointments Web Application that gives doctor's offices 
+    the ability to schedule making appointments for their patients to see one of their physicians.
+<br />
+<br />
+    For this workshop, all storage is done via cookies. All you need is a decent code editor
+    and a browser to be able to follow the workshop.
+<br />
+<br />
+    Server side handling of information is a topic for 
+    another more in depth look at web development.
+<br />
+<br />
+    <h3>If you want add more capability to this, here are some ideas</h3>
+    <li>Calendar view of upcoming appointments</li>
+    <li>Detecting overlapping appointments</li>
+    <li>Adding multiple doctors to the practice</li>
+    <li>Adding multiple appointment schedulers to the practice (needs server side database)</li>
+</div>
+
+<h4>Before starting, test your browser</h4>
+    <input id="btnLocalStorage" type="button" value="Test Local Storage" />
+    <input id="localStorageResult" type="text" readonly style="width: 160px"  />
+<br />
+<br />
+    <input id="btnCookieStorage" type="button" value="Test Cookie Storage" />
+    <input id="cookieStorageResult" type="text" readonly style="width: 160px"  />
+<br />
+<br />
+<h3>Notes</h3>
+    <li>We will use local storage so there is no need to install or run any kind of server
+    <li>Make sure you are comfortable using your editor. You will be writing code!
+    <li>If you are struggling, don't worry. Each section starts afresh
+<br />
+<br />
+<br />
+<table cellspacing="0" cellpadding="2">
+	<tr class="ui-accordion-header ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons">
+		<td width="130px">Link</td>
+		<td>Description</td>
+    </tr>
+    <tr>
+		<td class="cellHeading"><a href="demo1.html">Demo1</a></td>
+		<td class="cellDescription">Setting up & introduction</td>
+	</tr>
+	<tr>
+		<td class="cellHeading"><a href="scripts/jquery-ui-1.11.custom/index.html">jQuery UI</a></td>
+		<td class="cellDescription">Visual styling that we will use</td>
+	</tr>
+	<tr>
+		<td class="cellHeading"><a href="demo1.html">Demo1</a></td>
+		<td class="cellDescription">Starting Step 1 - Listing patients</td>
+	</tr>
+	<tr>
+		<td class="cellHeading"><a href="demo2.html">Demo2</a></td>
+		<td class="cellDescription">Starting Step 2 - Adding a patient</td>
+	</tr>
+	<tr>
+		<td class="cellHeading"><a href="emo3.html">Demo3</a></td>
+		<td class="cellDescription">Starting Step 3 - Editing a patient</td>
+	</tr>
+	<tr>
+		<td class="cellHeading"><a href="demo4.html">Demo4</a></td>
+		<td class="cellDescription">Starting Step 4 - Removing a patient</td>
+	</tr>
+	<tr>
+		<td class="cellHeading"><a href="fulldemo.html">Full Demo</a></td>
+		<td class="cellDescription">The Full Demo</td>
+	</tr>
+   
+</table>
+<br />
+<br />
+<br />
+        
+</body>
+</html>
+  
