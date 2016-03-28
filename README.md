@@ -1,7 +1,6 @@
 # UNTJSWorkshop
 UNT Javascript Workshop
 <pre>
-Javascript Workshop
 
 Length: 3.5 hours
 
