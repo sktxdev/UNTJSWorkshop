@@ -1,6 +1,8 @@
 # UNTJSWorkshop
 UNT Javascript Workshop
+
 Javascript Workshop
+
 Length: 3.5 hours
 
 If you wish to follow the workshop and code at the same time, you’ll need to bring:
