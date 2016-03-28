@@ -1,6 +1,6 @@
 # UNTJSWorkshop
 UNT Javascript Workshop
-
+<pre>
 Javascript Workshop
 
 Length: 3.5 hours
@@ -11,16 +11,16 @@ an editor, you can use anything you wish, notepad++, sublime, vi, etc., I don’
 
 Intro to Javascript and jQuery
 ==============================
-What is Javascript
-What is jQuery
-Assignments, Loops and Arrays
-Control Statements
-Objects
-Function Prototypes
-JSON and Javascript
-Debugging javascript
-jQuery and the DOM (HTML)
-jQuery and CSS
+- What is Javascript
+- What is jQuery
+- Assignments, Loops and Arrays
+- Control Statements
+- Objects
+- Function Prototypes
+- JSON and Javascript
+- Debugging javascript
+- jQuery and the DOM (HTML)
+- jQuery and CSS
 
 Practical Example of a Web Application
 ======================================
@@ -30,3 +30,5 @@ patients to see one of their physicians.
 
 For this workshop, all storage is done via cookies. All you need 
 is a decent code editor and a browser to be able to follow the workshop.
+
+</pre>
