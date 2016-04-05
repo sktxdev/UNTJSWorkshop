@@ -39,7 +39,7 @@ function PatientController(patientView) {
     }
     
     self.RefreshPatientsView = function() {
-        var data = [["Patient Id", "First Name", "Last Name", "Appointment Date", "Notes"]];
+        var data = [["", "Patient Id", "First Name", "Last Name", "Appointment Date", "Notes"]];
         var table = $("<table/>");
         $.each(self.patientDB, function(id, c) {
             data.push(c);    
@@ -49,6 +49,8 @@ function PatientController(patientView) {
             var rowclass = "class='ui-accordion-header ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons'";
             if (rowIndex > 0) rowclass = "";
             var row = $("<tr " + rowclass + " />");
+            if (rowIndex > 1)
+                row.append($("<td/>").html("<input name=patientId' type='radio' value='" + r.Id + "'/>")) ;
 
             $.each(r, function(colIndex, c) {
                 row.append($("<t"+(rowIndex == 0 ?  "h" : "d")+"/>").text(c));
