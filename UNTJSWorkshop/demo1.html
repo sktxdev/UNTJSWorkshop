@@ -29,7 +29,35 @@
            $("#btnEditAppointment").button()
            $("#btnRemoveAppointment").button()
            
+           $("#btnAddAppointment").click(function() {
+              ShowAddPatientDialog(); 
+           });
+           
+           
         });
+        
+        function ShowAddPatientDialog() {
+            $('#AddPatientDialog').dialog({
+                    autoopen: true,
+                    modal: true,
+                    title: "Add Patient",
+                    height: 'auto',
+                    width: 'auto',
+                    resizable: true,
+                    buttons: {
+                        "Add Patient Appointment": function () {
+                            // Add the patient
+                            // Refresh the grid
+
+                        },
+                        "Cancel": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+                    }
+        
+        
     </script>
 
 </head>
@@ -44,6 +72,31 @@
         <input id="btnAddAppointment" type="button" value="Add Appointment" class="button"/>&nbsp;
         <input id="btnEditAppointment" type="button" value="Edit Appointment" class="button" />&nbsp;
         <input id="btnRemoveAppointment" type="button" value="Remove Appointment" class="button" />&nbsp;
+    </div>
+    
+    <br /><br /><br /><br />
+    <div id="AddPatientDialog" style="display: none">
+        <table style="width: 100%; background: transparent; border: none">
+            <tr>
+                <td>Patient Id</td>
+                <td><input type=text placeholder="Patient Id" /></td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td><input type=text placeholder="First Name" /></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td><input type=text placeholder="Last Name" /></td>
+            </tr>
+            <tr>
+                <td>Date/Time:</td>
+                <td><input type=text placeholder="Appointment Date/Time" /></td>
+            </tr>
+            <tr>
+                <td>Notes:</td>
+                <td><textarea placeholder="Patient Notes" style="width: 300px; height: 80px"></textarea></td>
+            </tr>
     </div>
 </body>
 </html>
