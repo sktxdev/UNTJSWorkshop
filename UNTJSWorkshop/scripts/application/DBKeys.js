@@ -1,7 +1,0 @@
-DBKey = (function(){
-
-    function GetNextSequence() {
-    }
-    
-})();
-

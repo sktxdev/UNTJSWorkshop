@@ -79,7 +79,7 @@ function AppointmentsController() {
         $('#AddEditPatientApppointmentDialog').dialog({
                 autoopen: true,
                 modal: true,
-                title: "Add Patient",
+                title: "Add Appointment",
                 height: 'auto',
                 width: 'auto',
                 resizable: true,
