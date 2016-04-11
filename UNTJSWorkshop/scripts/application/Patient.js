@@ -110,6 +110,8 @@ function PatientController() {
 		var row = pc.GetSelectedPatientRow();
 		
         $("#patientId").val("");
+        $("#patientId").prop("readonly", true);
+        
         $("#patientFirstName").val("");
         $("#patientLastName").val("");
 
@@ -145,12 +147,14 @@ function PatientController() {
 
         var row = pc.GetSelectedPatientRow();
 
-		$("#patientId").val(row.id)
-		$("#patientFirstName").val(row.FirstName)
-		$("#patientLastName").val(row.LastName)
+		$("#patientId").val(row.id);
+        $("#patientId").prop("readonly", true);
+        
+		$("#patientFirstName").val(row.FirstName);
+		$("#patientLastName").val(row.LastName);
         $("#apptDatePart").hide();
         $("#apptNotesPart").hide();        
-
+        
         $('#AddEditPatientApppointmentDialog').dialog({
             autoopen: true,
             modal: true,
