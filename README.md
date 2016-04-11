@@ -27,7 +27,9 @@ We will be building a Patient Appointments Web Application that gives
 doctor's offices the ability to schedule making appointments for their 
 patients to see one of their physicians. 
 
-For this workshop, all storage is done via cookies. All you need 
+For this workshop, all storage is done via local storage. All you need 
 is a decent code editor and a browser to be able to follow the workshop.
 
 </pre>
+
+

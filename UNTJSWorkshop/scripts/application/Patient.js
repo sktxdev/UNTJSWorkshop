@@ -2,16 +2,17 @@
 //  Patient.js - Patient record
 // ######################################################################
 
-
 function Patient(patientId, firstName, lastName) {
+    'use strict';
     var self = this;
     
     self.patientId = patientId;
     self.firstName = firstName;
     self.lastName = lastName;
+	self.isActive = "Y";			// Patient is default active
     self.appointments = [];
     
-    self.ToJSON = function() {
+    self.ToJSON = function () {
         var jsonString = {
             "Id" : self.patientId,
             "FirstName" : self.firstName,
@@ -19,47 +20,181 @@ function Patient(patientId, firstName, lastName) {
             "Appointments" : self.appointments
         };
         return jsonString;
-    }
-    
+    };
 }
 
-function PatientController(patientView) {
+// ######################################################################
+//  PatientController - Controls the tables, dialogs and UI to DB I/F
+// ######################################################################
+
+function PatientController() {
+    'use strict';
     var self = this;
-    self.patientDB = [{}];
-    self.patientView = patientView;
+    self.patientDB = [{ }];
     
-    self.SavePatientAppointment = function(patient, appointment) {
+    // Save Patient
+    self.SavePatientAppointment = function (patient, appointment) {
+        var thePatient = patient.ToJSON();
         //self.patientDB = localStorage.getItem("Patients");
-        if (self.patientDB == null) {
+        
+        if (self.patientDB === null) {
             self.patientDB = [{}];
         }
-        var thePatient = patient.ToJSON();
+        
         self.patientDB.push(thePatient);
         //localStorage.setItem("Patients", JSON.stringify(self.patientDB));
-    }
+    };
     
-    self.RefreshPatientsView = function() {
-        var data = [["", "Patient Id", "First Name", "Last Name", "Appointment Date", "Notes"]];
-        var table = $("<table/>");
-        $.each(self.patientDB, function(id, c) {
-            data.push(c);    
+    // ######################################################################
+    // Create Patient Table View
+    // ###################################################################### 
+    
+    self.CreatePatientsView = function () {
+        jQuery("#tblPatients").jqGrid({
+            data: patientData,
+            datatype: "local",
+            height: '200px',
+            width: 'auto',
+            rowNum: 100,
+            rowList: [10, 20, 30],
+            colNames: ['Id', 'First Name', 'Last Name', 'Age', 'DOB', 'New Patient'],
+            colModel: [
+                { name: 'id', index: 'id', width: 30, sorttype: "int" },
+                { name: 'FirstName', index: 'FirstName', width: 150 },
+                { name: 'LastName', index: 'LastName', width: 150 },
+                { name: 'Age', index: 'Age', width: 100, align: "middle", sorttype: "int" },
+                { name: 'DOB', index: 'DOB', width: 120, sorttype: "date", formatter: "date" },
+                { name: 'NewPatient', index: 'NewPatient', width: 100, align: "left" }
+            ],
+            pager: "#tblPatientsPager",
+            viewrecords: true,
+            autowidth: true,
+            shrinktofit: false,
+            sortname: 'id',
+            sortorder: 'asc',
+            caption: "Patients",
+            recordtext: "Total Patients: {2}",
+            multiselect: false,
+            multiboxonly: true
         });
-        
-        $.each(data, function(rowIndex, r) {
-            var rowclass = "class='ui-accordion-header ui-state-default ui-accordion-header-active ui-state-active ui-corner-top ui-accordion-icons'";
-            if (rowIndex > 0) rowclass = "";
-            var row = $("<tr " + rowclass + " />");
-            if (rowIndex > 1)
-                row.append($("<td/>").html("<input name=patientId' type='radio' value='" + r.Id + "'/>")) ;
 
-            $.each(r, function(colIndex, c) {
-                row.append($("<t"+(rowIndex == 0 ?  "h" : "d")+"/>").text(c));
-            });
-            table.append(row);
+        // Hide the pager
+        jQuery("#tblPatientsPager_center").remove();
+    };
+
+    // ######################################################################
+    // Create Patient Table View
+    // ###################################################################### 
+
+    self.RefreshPatientDataView = function() {
+        jQuery("#tblPatients").jqGrid().trigger('reloadGrid');
+    };
+
+    // ######################################################################
+    // Get the selected row
+    // ###################################################################### 
+   
+	self.GetSelectedPatientRow = function() {
+        var selectedRow = $("#tblPatients").getGridParam('selrow');
+        var selrowData = $("#tblPatients").jqGrid('getRowData', selectedRow);
+		return selrowData;
+	};
+   
+
+    // ######################################################################
+    // Show an Add Patient Dialog
+    // ###################################################################### 
+   
+	self.ShowAddPatientDialog = function() {
+			
+		var row = pc.GetSelectedPatientRow();
+		
+        $("#patientId").val("");
+        $("#patientFirstName").val("");
+        $("#patientLastName").val("");
+
+        $("#apptDatePart").hide();
+        $("#apptNotesPart").hide();        
+		
+        $('#AddEditPatientApppointmentDialog').dialog({
+            autoopen: true,
+            modal: true,
+            title: "Add Patient",
+            height: 'auto',
+            width: 'auto',
+            resizable: true,
+            buttons: {
+                "Add": function () {
+                    // Add the patient
+                    // Refresh the grid
+                    pc.RefreshPatientDataView();
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
         });
-        $(patientView).html("");
-        $(patientView).append(table);
-       
-    }
-    
+    };
+
+    // ######################################################################
+    // Show an Edit Patient Dialog
+    // ###################################################################### 
+
+    self.ShowEditPatientDialog = function() {
+
+        var row = pc.GetSelectedPatientRow();
+
+		$("#patientId").val(row.id)
+		$("#patientFirstName").val(row.FirstName)
+		$("#patientLastName").val(row.LastName)
+        $("#apptDatePart").hide();
+        $("#apptNotesPart").hide();        
+
+        $('#AddEditPatientApppointmentDialog').dialog({
+            autoopen: true,
+            modal: true,
+            title: "Add Patient",
+            height: 'auto',
+            width: 'auto',
+            resizable: true,
+            buttons: {
+                "Save": function () {
+                    // Add the patient
+                    // Refresh the grid
+                    pc.RefreshPatientDataView();
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    };
+   
+	// ######################################################################
+    // Show an Remove Patient Dialog
+    // ###################################################################### 
+   
+    self.ShowRemovePatientDialog = function() {
+        var row = pc.GetSelectedPatientRow();
+
+        var answer = confirm("Are you sure you wish to remove patient id: " + 
+                         row.id + ", Name: " + row.FirstName + " " + row.LastName);
+        
+        if (answer == true) {
+            // Remove Patient
+        }
+
+    };
+
+    // ######################################################################
+    // Get Patient Appointments
+    // ###################################################################### 
+
+    self.GetPatientAppointments = function(patientId) {
+        if (patientId === null) {
+            return [{}];
+        }  
+    };    
 }

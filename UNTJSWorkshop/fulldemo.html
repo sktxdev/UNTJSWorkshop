@@ -1,17 +1,213 @@
 <html>
 <head>
+
+    <!-- Stylesheets -->    
     <link rel="stylesheet" href="styles/styles.css" type="text/css" />
-    <link rel="stylesheet" href="scripts/jquery-ui-1.11.custom/jquery-ui.css" type="text/css"  />
-    
+    <link rel="stylesheet" href="themes/redmond/jquery-ui.css" type="text/css"  />
+    <link rel="stylesheet" href="scripts/jqGrid-4.6.0/css/ui.jqgrid.css" type="text/css" />
+
+
+    <!-- jQuery -->
     <script src="scripts/jQuery-1.12.2/jQuery-1.12.2.min.js" type="text/javascript"></script>
-    <script src="scripts/jQuery-ui-1.11.custom/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="themes/redmond/jquery-ui.min.js" type="text/javascript"></script>
+
+    <!-- jqGrid -->   
+    <script src="scripts/jqGrid-4.6.0/js/jquery.jqGrid.min.js" type="text/javascript" ></script>
+
+    <!-- jqGrid localization -->
+    <script src="scripts/jqGrid-4.6.0/js/i18n/grid.locale-en.js" type="text/javascript" ></script>
+
+    <!-- Our Application -->
     
-    <script >
+    <script src="scripts/application/InitializeData.js" type="text/javascript"></script>
+    <script src="scripts/application/Patient.js" type="text/javascript"></script>
+    <script src="scripts/application/Appointment.js" type="text/javascript"></script>
+    <script src="scripts/application/Helpers.js" type="text/javascript"></script>
+
+    <script>
+        
+        if (!window.indexedDB) {
+            window.alert("Your browser doesn't support a stable version of IndexedDB.");
+        }        
+
+        var pc = new PatientController();
+		var ac = new AppointmentsController();
+        
+        $(document).ready(function() {
+
+			// ######################################################################
+			// Show the patients grid (note that on grid complete is when we show the
+			// appointments for the selected patient, until then there is nothing
+			// to show)
+			// ###################################################################### 
+
+            pc.CreatePatientsView();
+            ac.CreateAppointmentsView();
+			
+			// ######################################################################
+			// Setup Button Look and Feel
+			// ###################################################################### 
+
+            $("#btnAddPatient").button()
+            $("#btnEditPatient").button()
+            $("#btnRemovePatient").button()
+
+            $("#btnAddAppointment").button()
+            $("#btnEditAppointment").button()
+            $("#btnRemoveAppointment").button()
+            
+			
+			// ######################################################################
+			// Setup button handlers for patient add/edit/remove
+			// ###################################################################### 
+			
+            $("#btnAddPatient").click(function() {
+				pc.ShowAddPatientDialog();
+            });
+
+            $("#btnEditPatient").click(function() {
+                pc.ShowEditPatientDialog(); 
+            });
+
+            $("#btnRemovePatient").click(function() {
+                pc.ShowRemovePatientDialog(); 
+            });
+
+			// ######################################################################
+			// Setup button handlers for appointment add/edit/remove
+			// ###################################################################### 
+			
+            $("#btnAddAppointment").click(function() {
+				ac.ShowAddAppointmentDialog();
+            });
+
+            $("#btnEditAppointment").click(function() {
+                ac.ShowEditAppointmentDialog(); 
+            });
+
+            $("#btnRemoveAppointment").click(function() {
+                ac.ShowRemoveAppointmentDialog(); 
+            });
+            
+
+            // ###################################################################### 
+            // Setup tabs
+            // ###################################################################### 
+            
+            $( "#PatientTabs" ).tabs();
+			
+            // ###################################################################### 
+			// Setup Date time picker for appointments
+            // ###################################################################### 
+            
+			$("#apptDate").datepicker();
+            
+            
+            // ###################################################################### 
+			// Make grids inside tabs resize correctly
+            // ###################################################################### 
+
+            SetGridAutoResize("#PatientTabs", ["#tblAppointmentsHistory"]); 
+           
+        });
+        
     </script>
 
+    <style>
+        
+        /* Set title font height */
+        .ui-jqgrid-title { font-size: 16px; }
+        
+        /* set font and row padding for the grids */
+        .ui-jqgrid tr.jqgrow td {
+            height: auto;
+            font-size: 14px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+        
+        /* Set header font size */
+        .ui-jqgrid .ui-th-column {
+            font-size: 12px;
+        }
+       .ui-jqgrid .ui-jqgrid-bdiv {
+            overflow-x:hidden; 
+        }
+    </style>
+        
 </head>
 <body>
-<h3>UNT Java Workshop - Patient Appointment System - List Patient Appointments</h3>
-    This is the full demonstration
+    <div class="ui-widget-header" style="width: 100%; color: #000000; padding-left: 5px">
+        <h2>NT JavaScript Workshop - Simple Patient Appointment System</h2>
+    </div>
+    <br>
+    <div style="text-align: center">
+        In todays workshop, you will learn how to build this mini application.
+    </div>
+    <br>
+    
+    <div id="PatientsGrid" style="width:100%">    
+        <table id="tblPatients" style="width: 100%"></table>
+        <div id="tblPatientsPager"></div>
+    </div>
+    
+    <br />
+    <div id="NavButtons" style="text-align: center">
+        <input id="btnAddPatient" type="button" value="Add Patient" class="button"/>&nbsp;
+        <input id="btnEditPatient" type="button" value="Edit Patient" class="button" />&nbsp;
+        <input id="btnRemovePatient" type="button" value="Remove Patient" class="button" />&nbsp;
+
+        <input id="btnAddAppointment" type="button" value="Add Appointment" class="button"/>&nbsp;
+        <input id="btnEditAppointment" type="button" value="Edit Appointment" class="button" />&nbsp;
+        <input id="btnRemoveAppointment" type="button" value="Remove Appointment" class="button" />&nbsp;
+    </div>
+
+    <br /><br />
+
+    <div id="PatientTabs">
+        <ul>
+            <li><a href="#tabs-1">Patient Details</a></li>
+            <li><a href="#tabs-2">Appointment History</a></li>
+        </ul>
+		<!-- Patient Detail tab -->
+        <div id="tabs-1">
+            <p>You can add other patient details here such as treatments, medications etc.,</p>
+        </div>
+        <div id="tabs-2">
+			<table id="tblAppointmentsHistory"></table>
+			<div id="tblAppointmentsHistoryPager"></div>
+        </div>
+    </div>
+
+
+	<!-- Common dialog for add/edit patients and appointments -->
+    <div id="AddEditPatientApppointmentDialog" style="display: none">
+        <table style="width: 100%; background: transparent; border: none">
+            <tr>
+                <td>Patient Id</td>
+                <td><input id="patientId" type=text placeholder="Patient Id" /></td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td><input id="patientFirstName" type=text placeholder="First Name" /></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td><input id="patientLastName" type=text placeholder="Last Name" /></td>
+            </tr>
+            <tr id="apptDatePart">
+                <td>Date/Time:</td>
+                <td><input id="apptDate" type=text placeholder="Appointment Date/Time" /></td>
+            </tr>
+            <tr id="apptNotesPart">
+                <td valign="top">Notes:</td>
+                <td><textarea id="patientNotes" placeholder="Patient Notes" style="width: 300px; height: 80px"></textarea></td>
+            </tr>
+    </div>
+    
+   
+   
+   
 </body>
 </html>
+  

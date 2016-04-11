@@ -1,33 +1,7 @@
 body {
     background: #ffffff;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
-table {
-    border: 1px solid #a0a0a0;
-    background: #ffffff;
-    color: black;
-    width: 60%;
-}
-.cellHeading {
-    border-bottom: 1px solid #a0a0a0;
-    background: #eeff88;
-    width: "130px"
-}
-
-.cellDescription {
-    border-bottom: 1px solid #a0a0a0;
-    background: #e0e0e0;
-}
-
-.descriptiveText {
-    width: 60%;
-    text-align: justify;
-}
-
-.datatable {
-    border: 1px solid #a0a0a0;
-    background: #ffffff;
-    color: black;
-    width: 60%;
-}
 
