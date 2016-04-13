@@ -51,7 +51,7 @@ function PatientController() {
     
     self.CreatePatientsView = function () {
         jQuery("#tblPatients").jqGrid({
-            data: patientData,
+            data: db.FindPatients(),
             datatype: "local",
             height: '200px',
             width: 'auto',
@@ -80,6 +80,10 @@ function PatientController() {
 
         // Hide the pager
         jQuery("#tblPatientsPager_center").remove();
+        
+        // Show a refresh link for the table
+        jQuery("#tblPatients").jqGrid('navGrid', "#tblPatientsPager", { edit: false, add: false, del: false, search: false });
+        
     };
 
     // ######################################################################
@@ -87,7 +91,12 @@ function PatientController() {
     // ###################################################################### 
 
     self.RefreshPatientDataView = function() {
-        jQuery("#tblPatients").jqGrid().trigger('reloadGrid');
+        
+        jQuery('#tblPatients').jqGrid('clearGridData');
+        jQuery('#tblPatients').jqGrid('setGridParam', {data: db.FindPatients()});
+        jQuery('#tblPatients').trigger('reloadGrid');
+        
+        // jQuery("#tblPatients").jqGrid().trigger('reloadGrid');
     };
 
     // ######################################################################
@@ -128,8 +137,13 @@ function PatientController() {
             buttons: {
                 "Add": function () {
                     // Add the patient
+                    db.AddPatient($("#patientFirstName").val(), $("#patientLastName").val());
+                    
                     // Refresh the grid
                     pc.RefreshPatientDataView();
+                    
+                    // close dialog
+                    $(this).dialog("close");
 
                 },
                 "Cancel": function () {
@@ -164,9 +178,14 @@ function PatientController() {
             resizable: true,
             buttons: {
                 "Save": function () {
-                    // Add the patient
+                    // Save the patient
+                    db.SavePatient($("#patientId").val(), $("#patientFirstName").val(), $("#patientLastName").val());
+                    
                     // Refresh the grid
                     pc.RefreshPatientDataView();
+                    
+                    // close dialog
+                    $(this).dialog("close");
 
                 },
                 "Cancel": function () {

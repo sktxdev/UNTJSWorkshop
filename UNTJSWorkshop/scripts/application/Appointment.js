@@ -2,13 +2,14 @@
 //  Appointment.js - Patient Appointment record
 // ######################################################################
 
-function Appointment(patientId, appointmentDateTime, notes) {
+function Appointment(patientId, appointmentDate, appointmentTime, notes) {
 	
     'use strict';
     var self = this;
     
     self.patientId = patientId;
-    self.appointmentDateTime = appointmentDateTime;
+    self.appointmentDate = appointmentDate;
+    self.appointmentDate = appointmentTime;
     self.notes = notes;
 
 }
@@ -76,6 +77,9 @@ function AppointmentsController() {
         $("#patientFirstName").prop("readonly", true);
         $("#patientLastName").prop("readonly", true);
 		
+        $("#apptDatePart").show();
+        $("#apptNotesPart").show();        
+
         $('#AddEditPatientApppointmentDialog').dialog({
                 autoopen: true,
                 modal: true,
@@ -111,6 +115,9 @@ function AppointmentsController() {
         $("#patientFirstName").prop("readonly", true);
         $("#patientLastName").prop("readonly", true);
 		
+        $("#apptDatePart").show();
+        $("#apptNotesPart").show();        
+        
         $('#AddEditPatientApppointmentDialog').dialog({
                 autoopen: true,
                 modal: true,
@@ -119,8 +126,8 @@ function AppointmentsController() {
                 width: 'auto',
                 resizable: true,
                 buttons: {
-                    "Edit Appointment": function () {
-                        // Add the patient
+                    "Save Appointment": function () {
+                        // save the patient
                         // Refresh the grid
 
                     },
