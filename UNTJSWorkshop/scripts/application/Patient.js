@@ -67,6 +67,9 @@ function PatientController() {
                 { name: 'NewPatient', index: 'NewPatient', width: 100, align: "left" }
             ],
             pager: "#tblPatientsPager",
+            onSelectRow: function(id) {
+                ac.RefreshAppointmentsViewView(id);
+            },
             viewrecords: true,
             autowidth: true,
             shrinktofit: false,

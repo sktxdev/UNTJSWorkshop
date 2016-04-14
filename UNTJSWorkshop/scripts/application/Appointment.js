@@ -32,11 +32,11 @@ function AppointmentsController() {
                 width: 'auto',
                 rowNum: 100,
                 rowList: [10,20,30],
-                colNames:['','Appointment Date', 'Notes'],
+                colNames:['Date', 'Time', 'Notes'],
                 colModel:[
-                    { name:'id', index:'id', width:30, sorttype:"int" },
-                    { name:'AppointmentDateTime', index:'AppointmentDateTime', width:120, sorttype:"date", formatter:"date"},		
-                    { name:'Notes', index:'Notes', width:100, align:"left" }
+                    { name:'apptDate', index:'apptDate', width:120, sorttype: "date", formatter:"date"},
+                    { name:'apptTime', index:'apptTime', width:120, align: "center"},                    
+                    { name:'apptNote', index:'apptNote', width:100, align: "left" }
                 ],
                 pager: "#tblAppointmentsHistoryPager",
                 viewrecords: true,
@@ -58,10 +58,13 @@ function AppointmentsController() {
     // Create Patient Table View
     // ###################################################################### 
 
-    self.RefreshAppointmentsViewView = function() {
-        jQuery("#tblAppointmentsHistory").jqGrid().trigger('reloadGrid');
+    self.RefreshAppointmentsViewView = function(patientId) {
+        jQuery('#tblAppointmentsHistory').jqGrid('clearGridData');
+        jQuery('#tblAppointmentsHistory').jqGrid('setGridParam', {data: db.GetPatientAppointments(patientId)});
+        jQuery('#tblAppointmentsHistory').trigger('reloadGrid');
     };	
-	
+    
+    
     // ######################################################################
     // Show an Add Appointment Dialog
     // ###################################################################### 
@@ -89,9 +92,17 @@ function AppointmentsController() {
                 resizable: true,
                 buttons: {
                     "Add Appointment": function () {
-                        // Add the patient
+                        // Add the appointment
+                        db.SaveAppointment($("#patientId").val(),
+                                           $("#apptDate").val(), 
+                                           $("#apptTime").val(), 
+                                           $("#patientNotes").val());
                         // Refresh the grid
-
+                        self.RefreshAppointmentsViewView($("#patientId").val());
+                        
+                        // close the dialog
+                        $(this).dialog("close");
+                        
                     },
                     "Cancel": function () {
                         $(this).dialog("close");
