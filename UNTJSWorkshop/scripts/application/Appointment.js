@@ -34,9 +34,10 @@ function AppointmentsController() {
                 rowList: [10,20,30],
                 colNames:['Date', 'Time', 'Notes'],
                 colModel:[
-                    { name:'apptDate', index:'apptDate', width:120, sorttype: "date", formatter:"date"},
-                    { name:'apptTime', index:'apptTime', width:120, align: "center"},                    
-                    { name:'apptNote', index:'apptNote', width:100, align: "left" }
+                    { name:'apptDate', index:'apptDate', width:100, sorttype: "date", formatter:"date", 
+                        formatoptions: { srcformat: 'm/d/Y' }},
+                    { name:'apptTime', index:'apptTime', width:100, align: "center"},                    
+                    { name:'apptNote', index:'apptNote', width:500, align: "left" }
                 ],
                 pager: "#tblAppointmentsHistoryPager",
                 viewrecords: true,

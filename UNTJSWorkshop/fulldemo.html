@@ -105,9 +105,10 @@
             $("#PatientTabs").tabs();
 			
             // ###################################################################### 
-			// Setup Date time picker for appointments
+			// Setup Date time picker for appointments and date picker for DOB
             // ###################################################################### 
             
+            $("#patientDOB").datepicker();
 			$("#apptDate").datepicker();
             $('#apptTime').timepicker({
                 'minTime': '8:00am',
@@ -119,6 +120,7 @@
             // ###################################################################### 
 
             SetGridAutoResize("#PatientTabs", ["#tblAppointmentsHistory"]); 
+            SetGridAutoResize("#PatientsGrid", ["#tblPatients"]); 
            
             
         });
@@ -206,6 +208,10 @@
             <tr>
                 <td>Last Name:</td>
                 <td><input id="patientLastName" type=text placeholder="Last Name" /></td>
+            </tr>
+            <tr id="patDOB">
+                <td>DOB:</td>
+                <td><input id="patientDOB" type=text placeholder="Date of Birth" /></td>
             </tr>
             <tr id="apptDatePart">
                 <td>Date/Time:</td>
