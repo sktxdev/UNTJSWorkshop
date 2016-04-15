@@ -37,12 +37,12 @@ function AppointmentsController() {
                     { name:'apptDate', index:'apptDate', width:100, sorttype: "date", formatter:"date", 
                         formatoptions: { srcformat: 'm/d/Y' }},
                     { name:'apptTime', index:'apptTime', width:100, align: "center"},                    
-                    { name:'apptNote', index:'apptNote', width:500, align: "left" }
+                    { name:'apptNote', index:'apptNote', width: 300, align: "left" }
                 ],
                 pager: "#tblAppointmentsHistoryPager",
                 viewrecords: true,
                 autowidth: true,
-                shrinktofit: false,
+                shrinktofit: true,
                 sortname: 'id',
 		        sortorder: 'asc',
                 caption: "Appointments History",
